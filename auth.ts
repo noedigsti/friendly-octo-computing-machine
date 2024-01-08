@@ -24,7 +24,7 @@ import NextAuth from "next-auth"
 // import Fusionauth from "next-auth/providers/fusionauth"
 import GitHub from "next-auth/providers/github"
 // import Gitlab from "next-auth/providers/gitlab"
-// import Google from "next-auth/providers/google"
+import Google from "next-auth/providers/google"
 // import Hubspot from "next-auth/providers/hubspot"
 // import Instagram from "next-auth/providers/instagram"
 // import Kakao from "next-auth/providers/kakao"
@@ -63,7 +63,7 @@ import GitHub from "next-auth/providers/github"
 // import Zoho from "next-auth/providers/zoho"
 // import Zoom from "next-auth/providers/zoom"
 
-import type { NextAuthConfig } from "next-auth"
+import type { NextAuthConfig, Session, User } from "next-auth"
 
 export const config = {
   theme: {
@@ -94,7 +94,7 @@ export const config = {
     // Fusionauth,
     GitHub,
     // Gitlab,
-    // Google,
+    Google,
     // Hubspot,
     // Instagram,
     // Kakao,
@@ -138,6 +138,12 @@ export const config = {
       const { pathname } = request.nextUrl
       if (pathname === "/middleware-example") return !!auth
       return true
+    },
+    session: async ({ session, token }) => {
+      return {
+        ...session,
+        token: token,
+      };
     },
   },
 } satisfies NextAuthConfig
